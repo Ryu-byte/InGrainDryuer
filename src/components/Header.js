@@ -7,10 +7,10 @@ import {SettingsModal} from "./SettingsModal";
 import React, { useState } from 'react';
 
 
-export const Header = () => {
+export const Header = (props) => {
     const [show, setShow] = useState(false);
     return (
-        <Container fluid className="p-0">
+        <Container fluid className="header p-0">
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Navbar.Brand>
                     <img
