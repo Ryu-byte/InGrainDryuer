@@ -107,7 +107,9 @@ export const CustomCard = (props) => {
             <div className="resizer nw"></div>
             <div className="resizer sw"></div>
             <div className="resizer se"></div>
-            {props.item.title}
+            <span>
+                {props.item.title}
+            </span>
         </div>
 
     )

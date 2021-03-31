@@ -3,12 +3,10 @@ import logo from '../logo.svg'
 import {Container, NavDropdown, Nav} from "react-bootstrap";
 import Navbar from 'react-bootstrap/Navbar';
 import SettingsIcon from '@material-ui/icons/Settings';
-import {SettingsModal} from "./SettingsModal";
-import React, { useState } from 'react';
+import React from 'react';
 
 
 export const Header = (props) => {
-    const [show, setShow] = useState(false);
     return (
         <Container fluid className="header p-0">
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -28,15 +26,14 @@ export const Header = (props) => {
                         <NavDropdown title={
                             <SettingsIcon fontSize="large"/>
                         } id="collasible-nav-dropdown" drop="left">
-                            <NavDropdown.Item href="#action/3.1" onClick={()=>{setShow(true)}}>Настройки</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Выбор фона</NavDropdown.Item>
+                            <NavDropdown.Item >Настройки</NavDropdown.Item>
+                            <NavDropdown.Item>Выбор фона</NavDropdown.Item>
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item href="#action/3.4">Выход из учетной записи</NavDropdown.Item>
+                            <NavDropdown.Item>Выход из учетной записи</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-            <SettingsModal show={show} onHide={()=>{setShow(false)}}/>
         </Container>
     )
 };
