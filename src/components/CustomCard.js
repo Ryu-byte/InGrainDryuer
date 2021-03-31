@@ -52,13 +52,12 @@ export const CustomCard = (props) => {
     };
     useEffect(() => {
         const el = element.current;
-        const resizers = document.querySelectorAll('.resizer');
+        const resizers = document.querySelectorAll(`.custom-card.elem-${props.item.id} > .resizer`);
+        console.log(resizers)
         let currentResizer
 
         for (let resizer of resizers) {
             resizer.addEventListener('mousedown', mousedown);
-
-
             function mousedown($eventMouseDown) {
                 currentResizer = $eventMouseDown.target;
                 isResizing = true;
@@ -102,11 +101,11 @@ export const CustomCard = (props) => {
 
     return (
 
-        <div id={props.item.id} ref={element} onMouseDown={onDrag} onMouseUp={onDrop} className={'custom-card'}>
-            <div className="resizer ne"></div>
-            <div className="resizer nw"></div>
-            <div className="resizer sw"></div>
-            <div className="resizer se"></div>
+        <div id={props.item.id} ref={element} onMouseDown={onDrag} onMouseUp={onDrop} className={`custom-card elem-${props.item.id}`}>
+            <div className='resizer ne'></div>
+            <div className='resizer nw'></div>
+            <div className='resizer sw'></div>
+            <div className='resizer se'></div>
             <span>
                 {props.item.title}
             </span>
