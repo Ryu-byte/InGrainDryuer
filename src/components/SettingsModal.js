@@ -2,13 +2,13 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import React, {useState} from 'react';
 import {useDispatch, useStore} from "react-redux";
-import {addCard, deleteCard} from "../actions/cards";
+import {setCards as actionSetCards} from "../actions/cards";
 
 
 export const SettingsModal = (props) => {
     const store = useStore();
     const dispatch = useDispatch();
-    const [itemsArray, setItemsArray] = useState([
+    const [cards, setCards] = useState([
         {id: 1, title: 'Пример 1', value: false, isActive: false},
         {id: 2, title: 'Пример 2', value: false, isActive: false},
         {id: 3, title: 'Пример 3', value: '15512341', isActive: false},
@@ -16,24 +16,42 @@ export const SettingsModal = (props) => {
     ]);
     store.subscribe(() => {
         const state = store.getState();
-        const newItemsArray = [];
-        itemsArray.forEach((item) => {
+        const newCards = [];
+        cards.forEach((item) => {
             if (state.cards.some((card) => card.id === item.id)) {
-                newItemsArray.push({...item, isActive: true})
+                newCards.push({...item, isActive: true})
             } else {
-                newItemsArray.push({...item, isActive: false});
+                newCards.push({...item, isActive: false});
             }
         })
-        setItemsArray(newItemsArray);
+        setCards(newCards);
     })
 
     const handlerClick = (item) => {
-        if (item.isActive) {
-            dispatch(deleteCard(item.id));
-        } else {
-            dispatch(addCard(item));
-        }
+        const newCards = [...cards]
+        const index = newCards.findIndex(({ id }) => id === item.id);
+        newCards[index].isActive = !newCards[index].isActive;
+        setCards(newCards);
     };
+    const handlerSubmitClick = () => {
+        const newCards = [];
+        cards.forEach((card) => card.isActive ? newCards.push(card) : '');
+       dispatch(actionSetCards(newCards));
+        props.onHide();
+    }
+    const cardList = cards.map((item) => {
+        return (
+            <div
+                id={`selected-${item.id}`}
+                key={item.id}
+                onClick={() => handlerClick(item)}
+                className={`card mb-2 p-3 ${item.isActive ? 'bg-danger' : ''}`}
+            >
+                {item.title}
+            </div>
+
+        )
+    })
 
     return (
         <Modal show={props.show} onHide={props.onHide} animation={false}>
@@ -42,27 +60,15 @@ export const SettingsModal = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <div className="flex flex-wrap">
-                    {itemsArray.map((item) => {
-                        return (
-                            <div
-                                id={`selected-${item.id}`}
-                                key={item.id}
-                                onClick={() => handlerClick(item)}
-                                className={`card mb-2 p-3 ${item.isActive ? 'bg-danger' : ''}`}
-                            >
-                                   {item.title}
-                            </div>
-
-                        )
-                    })}
+                    {cardList}
                 </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={props.onHide}>
-                    Close
+                    Отменить
                 </Button>
-                <Button variant="primary">
-                    Save Changes
+                <Button variant="primary" onClick={() => {handlerSubmitClick()}}>
+                    Применить
                 </Button>
             </Modal.Footer>
         </Modal>

@@ -1,4 +1,7 @@
 .content-img img{
-    width: 850px;
-    height: 850px;
+    width: 890px;
+    height: 890px;
+}
+.content_left-panel {
+    position: absolute;
 }

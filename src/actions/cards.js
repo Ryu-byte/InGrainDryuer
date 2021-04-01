@@ -1,4 +1,4 @@
-import { ADD_CARD, DELETE_CARD } from "../actionTypes";
+import { SET_CARDS } from "../actionTypes";
 
-export const addCard = (card) => ({ type: ADD_CARD, card})
-export const deleteCard = (id) => ({ type: DELETE_CARD, id})
+export const setCards = (cards) => ({ type: SET_CARDS, cards})
+

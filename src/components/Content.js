@@ -25,7 +25,7 @@ export const Content = (props) => {
 
     return (
         <Container className={'content'} fluid>
-            <Row>
+            <Row className={'content_left-panel'}>
                 <DropdownButton variant="secondary" id="dropdown-basic-button" title="Объекты" className="mr-1">
                     <Dropdown.Item  onClick={()=>{setShow(true)}}>Сушилка</Dropdown.Item>
                 </DropdownButton>
