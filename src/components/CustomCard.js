@@ -144,10 +144,10 @@ export const CustomCard = (props) => {
     return (
 
         <div id={props.card.id} ref={element} className={`custom-card elem-${props.card.id}`}>
-            <div className='resizer ne'></div>
-            <div className='resizer nw'></div>
-            <div className='resizer sw'></div>
-            <div className='resizer se'></div>
+            <div className='resizer ne'/>
+            <div className='resizer nw' />
+            <div className='resizer sw' />
+            <div className='resizer se' />
             <span>
                 {props.card.title}
                 <span onClick={() => props.onDeleteCard(props.card)}>&times;</span>
