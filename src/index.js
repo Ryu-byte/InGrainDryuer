@@ -7,14 +7,19 @@ import reducers from './reducers'
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 
-const state = createStore(
+const store = createStore(
     reducers,
+    {cards: [
+            {id: 1, title: 'Пример 1', value: false, isActive: false},
+            {id: 2, title: 'Пример 2', value: false, isActive: false},
+            {id: 3, title: 'Пример 3', value: '15512341', isActive: false},
+            {id: 4, title: 'Пример 4', value: '123123', isActive: false}
+        ]},
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
-
 ReactDOM.render(
-  <Provider store={state}>
-    <App />
+  <Provider store={store}>
+    <App store = {store.getState()} />
   </Provider>,
   document.getElementById('root')
 );

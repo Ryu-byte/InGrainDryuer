@@ -1,9 +1,8 @@
 import '../css/CustomCard.css'
-import {useRef, useEffect} from "react";
+import {useRef, useEffect } from "react";
 
 export const CustomCard = (props) => {
     const element = useRef(null);
-
     useEffect(() => {
         let isResizing = false;
         const content = document.querySelector('.content');
@@ -90,15 +89,15 @@ export const CustomCard = (props) => {
 
     return (
 
-        <div id={props.item.id} ref={element}  className={`custom-card elem-${props.item.id}`}>
+        <div id={props.card.id} ref={element}  className={`custom-card elem-${props.card.id}`}>
             <div className='resizer ne'></div>
             <div className='resizer nw'></div>
             <div className='resizer sw'></div>
             <div className='resizer se'></div>
             <span>
-                {props.item.title}
+                {props.card.title}
+                <span onClick={() => props.onDeleteCard(props.card)}>&times;</span>
             </span>
-
         </div>
 
     )

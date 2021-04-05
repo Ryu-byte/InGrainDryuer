@@ -3,11 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Header} from "./components/Header";
 import {Content} from "./components/Content";
 
-function App() {
+function App(props) {
     return (
         <div>
             <Header/>
-            <Content/>
+            <Content cards={props.store.cards}/>
         </div>
     );
 }

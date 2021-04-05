@@ -7,36 +7,23 @@ import {setCards as actionSetCards} from "../actions/cards";
 
 export const SettingsModal = (props) => {
     const store = useStore();
+    let state = store.getState();
     const dispatch = useDispatch();
-    const [cards, setCards] = useState([
-        {id: 1, title: 'Пример 1', value: false, isActive: false},
-        {id: 2, title: 'Пример 2', value: false, isActive: false},
-        {id: 3, title: 'Пример 3', value: '15512341', isActive: false},
-        {id: 4, title: 'Пример 4', value: '123123', isActive: false},
-    ]);
+    const [cards, setCards] = useState(state.cards);
     store.subscribe(() => {
-        const state = store.getState();
-        const newCards = [];
-        cards.forEach((item) => {
-            if (state.cards.some((card) => card.id === item.id)) {
-                newCards.push({...item, isActive: true})
-            } else {
-                newCards.push({...item, isActive: false});
-            }
-        })
-        setCards(newCards);
+        state = store.getState();
+        setCards(state.cards)
+        console.log(state.cards)
     })
 
     const handlerClick = (item) => {
-        const newCards = [...cards]
-        const index = newCards.findIndex(({ id }) => id === item.id);
+        const newCards = [...cards];
+        const index = cards.findIndex(({id}) => id === item.id);
         newCards[index].isActive = !newCards[index].isActive;
         setCards(newCards);
     };
     const handlerSubmitClick = () => {
-        const newCards = [];
-        cards.forEach((card) => card.isActive ? newCards.push(card) : '');
-       dispatch(actionSetCards(newCards));
+        dispatch(actionSetCards(cards))
         props.onHide();
     }
     const cardList = cards.map((item) => {
@@ -67,7 +54,9 @@ export const SettingsModal = (props) => {
                 <Button variant="secondary" onClick={props.onHide}>
                     Отменить
                 </Button>
-                <Button variant="primary" onClick={() => {handlerSubmitClick()}}>
+                <Button variant="primary" onClick={() => {
+                    handlerSubmitClick()
+                }}>
                     Применить
                 </Button>
             </Modal.Footer>

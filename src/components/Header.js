@@ -6,7 +6,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import React from 'react';
 
 
-export const Header = (props) => {
+export const Header = () => {
     return (
         <Container fluid className="header p-0">
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
