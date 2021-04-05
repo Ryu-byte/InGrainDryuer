@@ -1,7 +1,12 @@
-.content-img img{
-    width: 890px;
-    height: 890px;
+.content-img {
+    width: 100%;
+    height: calc(100vh - 79px);
 }
+
+.content-img img {
+    height: 100%;
+}
+
 .content_left-panel {
     position: absolute;
 }

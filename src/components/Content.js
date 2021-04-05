@@ -4,20 +4,24 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import contentImg from '../img/content_img.jpg';
 import {CustomCard} from "./CustomCard";
-import {useDispatch, useStore} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React, {useState} from "react";
 import {SettingsModal} from "./SettingsModal";
-import {changeIsActive} from "../actions/cards";
+import { changeIsActive, setCards } from "../actions/cards";
 
-export const Content = (props) => {
+export const Content = () => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
+    const cards = useSelector(state => state.cards);
+    const visibleCards = [];
     const onDeleteCard = (card) => {
         dispatch(changeIsActive(card))
-        console.log(card)
     }
-    let visibleCards = [];
-    props.cards.forEach(card => {
+    const onSubmit = (changedCards) => {
+        dispatch(setCards(changedCards))
+        setShow(false);
+    }
+    cards.forEach(card => {
         if(card.isActive === true) {
             visibleCards.push(<CustomCard key={card.id} card={card} onDeleteCard={onDeleteCard} />)
         }
@@ -36,16 +40,19 @@ export const Content = (props) => {
                     <Dropdown.Item>Something else</Dropdown.Item>
                 </DropdownButton>
             </Row>
-            {visibleCards}
+            { visibleCards }
             <div className="content-img">
                 <img
                     src={contentImg}
                     alt="Схема зерносушилки"
                 />
             </div>
-            <SettingsModal show={show} onHide={() => {
-                setShow(false)
-            }}/>
+            <SettingsModal
+                show={show}
+                onHide={setShow}
+                onSubmit={onSubmit}
+                cards={cards}
+            />
         </Container>
     )
 };

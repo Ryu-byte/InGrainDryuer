@@ -1,32 +1,24 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import React, {useState} from 'react';
-import {useDispatch, useStore} from "react-redux";
-import {setCards as actionSetCards} from "../actions/cards";
+import React, { useEffect, useState } from 'react';
 
 
 export const SettingsModal = (props) => {
-    const store = useStore();
-    let state = store.getState();
-    const dispatch = useDispatch();
-    const [cards, setCards] = useState(state.cards);
-    store.subscribe(() => {
-        state = store.getState();
-        setCards(state.cards)
-        console.log(state.cards)
-    })
+    const [changeCards, setChangeCards] = useState([]);
+    useEffect(() => {
+        setChangeCards(props.cards)
+    }, [props.cards])
 
     const handlerClick = (item) => {
-        const newCards = [...cards];
-        const index = cards.findIndex(({id}) => id === item.id);
-        newCards[index].isActive = !newCards[index].isActive;
-        setCards(newCards);
+        const newChangeCards = [...changeCards];
+        const index = newChangeCards.findIndex(({id}) => id === item.id);
+        newChangeCards[index].isActive = !newChangeCards[index].isActive;
+        setChangeCards(newChangeCards);
     };
     const handlerSubmitClick = () => {
-        dispatch(actionSetCards(cards))
-        props.onHide();
+        props.onSubmit(changeCards);
     }
-    const cardList = cards.map((item) => {
+    const cardList = changeCards.map((item) => {
         return (
             <div
                 id={`selected-${item.id}`}
@@ -41,7 +33,7 @@ export const SettingsModal = (props) => {
     })
 
     return (
-        <Modal show={props.show} onHide={props.onHide} animation={false}>
+        <Modal show={props.show} onHide={() => props.onHide(false)} animation={false}>
             <Modal.Header closeButton>
                 <Modal.Title>Сушилка</Modal.Title>
             </Modal.Header>
@@ -51,7 +43,7 @@ export const SettingsModal = (props) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={props.onHide}>
+                <Button variant="secondary" onClick={() => props.onHide(false)}>
                     Отменить
                 </Button>
                 <Button variant="primary" onClick={() => {
