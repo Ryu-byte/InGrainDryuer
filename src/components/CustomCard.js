@@ -1,9 +1,13 @@
+
+import {useRef, useEffect, useState} from "react";
+import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 import '../css/CustomCard.css'
-import { useRef, useEffect } from "react";
+import {SettingsCardModal} from "./SettingsCardModal";
 
 export const CustomCard = (props) => {
     const element = useRef(null);
     useEffect(() => {
+
         let isResizing = false;
         const content = document.querySelector('.content');
         const e = element.current;
@@ -142,17 +146,23 @@ export const CustomCard = (props) => {
     }, [])
 
     return (
-
         <div id={props.card.id} ref={element} className={`custom-card elem-${props.card.id}`}>
             <div className='resizer ne'/>
-            <div className='resizer nw' />
-            <div className='resizer sw' />
-            <div className='resizer se' />
-            <span>
-                {props.card.title}
-                <span onClick={() => props.onDeleteCard(props.card)}>&times;</span>
-            </span>
-        </div>
+            <div className='resizer nw'/>
+            <div className='resizer sw'/>
+            <div className='resizer se'/>
 
+            <SettingsRoundedIcon fontSize={'small'} className={'settings-card'} onClick={() => {
+                props.currentCard(props.card)
+                props.show('settingsCardModal')
+            }}/>
+            <div>
+                {props.card.title}
+            </div>
+            <div>
+                {props.card.value}
+            </div>
+            <span onClick={() => props.onDeleteCard(props.card)}>&times;</span>
+        </div>
     )
 };

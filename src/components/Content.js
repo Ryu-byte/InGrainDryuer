@@ -8,10 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import React, {useState} from "react";
 import {SettingsModal} from "./SettingsModal";
 import { changeIsActive, setCards } from "../actions/cards";
+import {SettingsCardModal} from "./SettingsCardModal";
 
 export const Content = () => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
+    const [currentCard, setCurrentCard] = useState({});
     const cards = useSelector(state => state.cards);
     const visibleCards = [];
     const onDeleteCard = (card) => {
@@ -23,7 +25,8 @@ export const Content = () => {
     }
     cards.forEach(card => {
         if(card.isActive === true) {
-            visibleCards.push(<CustomCard key={card.id} card={card} onDeleteCard={onDeleteCard} />)
+            visibleCards.push(
+                <CustomCard key={card.id} card={card} onDeleteCard={onDeleteCard} show={setShow} currentCard={setCurrentCard}/>)
         }
     })
     return (
@@ -31,7 +34,7 @@ export const Content = () => {
             <Row className={'content_left-panel'}>
                 <DropdownButton variant="secondary" id="dropdown-basic-button" title="Объекты" className="mr-1">
                     <Dropdown.Item onClick={() => {
-                        setShow(true)
+                        setShow('settingsModal')
                     }}>Сушилка</Dropdown.Item>
                 </DropdownButton>
                 <DropdownButton variant="secondary" id="dropdown-basic-button" title="Отчеты">
@@ -48,10 +51,17 @@ export const Content = () => {
                 />
             </div>
             <SettingsModal
-                show={show}
-                onHide={setShow}
+                show={show === 'settingsModal'}
+                onOpenSettingsCardModal = {() => {setShow('settingsCardModal')}}
+                onClose={() => {setShow('close')}}
                 onSubmit={onSubmit}
                 cards={cards}
+                currentCard={setCurrentCard}
+            />
+            <SettingsCardModal
+                show={show === 'settingsCardModal'}
+                onClose={() => {setShow('close')}}
+                currentCard={currentCard}
             />
         </Container>
     )

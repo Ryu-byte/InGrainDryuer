@@ -1,6 +1,8 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import ReactDOM from "react-dom";
+import SettingsRoundedIcon from "@material-ui/icons/SettingsRounded";
 
 
 export const SettingsModal = (props) => {
@@ -23,17 +25,24 @@ export const SettingsModal = (props) => {
             <div
                 id={`selected-${item.id}`}
                 key={item.id}
-                onClick={() => handlerClick(item)}
                 className={`card mb-2 p-3 ${item.isActive ? 'bg-danger' : ''}`}
             >
-                {item.title}
+                <div
+                    onClick={() => handlerClick(item)}
+                >
+                    {item.title}
+                </div>
+                <SettingsRoundedIcon fontSize={'small'} onClick={() => {
+                    props.currentCard(item)
+                    props.onOpenSettingsCardModal()
+                }}/>
             </div>
 
         )
     })
 
-    return (
-        <Modal show={props.show} onHide={() => props.onHide(false)} animation={false}>
+    return ReactDOM.createPortal(
+        <Modal show={props.show} onHide={props.onClose} animation={false}>
             <Modal.Header closeButton>
                 <Modal.Title>Сушилка</Modal.Title>
             </Modal.Header>
@@ -43,15 +52,13 @@ export const SettingsModal = (props) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={() => props.onHide(false)}>
+                <Button variant="secondary" onClick={props.onClose}>
                     Отменить
                 </Button>
-                <Button variant="primary" onClick={() => {
-                    handlerSubmitClick()
-                }}>
+                <Button variant="primary" onClick={handlerSubmitClick}>
                     Применить
                 </Button>
             </Modal.Footer>
-        </Modal>
+        </Modal>, document.getElementById('root-modal')
     );
 }
