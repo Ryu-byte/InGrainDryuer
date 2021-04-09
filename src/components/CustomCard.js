@@ -1,13 +1,12 @@
-
-import {useRef, useEffect, useState} from "react";
+import React, {useRef, useEffect} from "react";
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 import '../css/CustomCard.css'
-import {SettingsCardModal} from "./SettingsCardModal";
+import {CardImage} from "./CardImage";
+
 
 export const CustomCard = (props) => {
     const element = useRef(null);
     useEffect(() => {
-
         let isResizing = false;
         const content = document.querySelector('.content');
         const e = element.current;
@@ -159,6 +158,9 @@ export const CustomCard = (props) => {
             <div>
                 {props.card.title}
             </div>
+           <div>
+               <CardImage card={props.card} />
+           </div>
             <div>
                 {props.card.value}
             </div>

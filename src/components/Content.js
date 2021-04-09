@@ -7,7 +7,7 @@ import {CustomCard} from "./CustomCard";
 import { useDispatch, useSelector } from "react-redux";
 import React, {useState} from "react";
 import {SettingsModal} from "./SettingsModal";
-import { changeIsActive, setCards } from "../actions/cards";
+import {changeCardType, changeIsActive, setCards} from "../actions/cards";
 import {SettingsCardModal} from "./SettingsCardModal";
 
 export const Content = () => {
@@ -19,10 +19,14 @@ export const Content = () => {
     const onDeleteCard = (card) => {
         dispatch(changeIsActive(card))
     }
+    const onChangeCardType = (card, type) => {
+        dispatch(changeCardType(card,type))
+    }
     const onSubmit = (changedCards) => {
         dispatch(setCards(changedCards))
         setShow(false);
     }
+
     cards.forEach(card => {
         if(card.isActive === true) {
             visibleCards.push(
@@ -62,6 +66,7 @@ export const Content = () => {
                 show={show === 'settingsCardModal'}
                 onClose={() => {setShow('close')}}
                 currentCard={currentCard}
+                onChangeCardType={onChangeCardType}
             />
         </Container>
     )

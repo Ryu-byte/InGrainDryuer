@@ -4,14 +4,14 @@ import React, {useEffect, useState} from 'react';
 import ReactDOM from "react-dom";
 import SettingsRoundedIcon from "@material-ui/icons/SettingsRounded";
 
-
 export const SettingsModal = (props) => {
     const [changeCards, setChangeCards] = useState([]);
     useEffect(() => {
         setChangeCards(props.cards)
     }, [props.cards])
-
+    let cardImage;
     const handlerClick = (item) => {
+
         const newChangeCards = [...changeCards];
         const index = newChangeCards.findIndex(({id}) => id === item.id);
         newChangeCards[index].isActive = !newChangeCards[index].isActive;
@@ -19,6 +19,7 @@ export const SettingsModal = (props) => {
     };
     const handlerSubmitClick = () => {
         props.onSubmit(changeCards);
+
     }
     const cardList = changeCards.map((item) => {
         return (

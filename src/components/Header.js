@@ -29,7 +29,14 @@ export const Header = () => {
                             <NavDropdown.Item >Настройки</NavDropdown.Item>
                             <NavDropdown.Item>Выбор фона</NavDropdown.Item>
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item>Выход из учетной записи</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => {
+                                let elementsPosition = {};
+                                const elements = document.querySelectorAll('.custom-card')
+                                elements.forEach((item, index) => {
+
+                                    elementsPosition[`element${index + 1}`] = item.getBoundingClientRect()
+                                })
+                            }}>Выход из учетной записи</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
